@@ -1,22 +1,26 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
 import { MarketDataService } from './market-data.service';
 import { MarketDataStatsDto } from './dto/market-data-stats.dto';
+import { MarketDataStatsParamsDto } from './dto/market-data-stats-params.dto';
+import { MarketDataStatsQueryDto } from './dto/market-data-stats-query.dto';
 
 @Controller('market-data')
 export class MarketDataController {
+  private readonly logger = new Logger(MarketDataController.name);
   constructor(private readonly marketDataService: MarketDataService) {}
 
   @Get('stats/:symbol')
   public async getStats(
-    @Param() params: any,
-    @Query() query: any,
+    @Param() params: MarketDataStatsParamsDto,
+    @Query() query: MarketDataStatsQueryDto,
   ): Promise<MarketDataStatsDto> {
-    console.log(params, query);
-    const { from, to } = query;
+    this.logger.debug(
+      `GET market-data/stats/:symbol, ${JSON.stringify({ params, query })}`,
+    );
     return this.marketDataService.getStats(
       params.symbol,
-      new Date(from),
-      new Date(to),
+      new Date(query.from),
+      new Date(query.to),
     );
   }
 }

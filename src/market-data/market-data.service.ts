@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { MarketSymbol } from '../binance/model/market-symbol';
 import { MarketDataStatsDto } from './dto/market-data-stats.dto';
 import { BinanceService } from '../binance/binance.service';
@@ -37,13 +37,13 @@ export class MarketDataService {
       from,
       to,
     );
-
+    if (!data.length) throw new NotFoundException('No data found');
     return this.serialize(data);
   }
 
   private serialize(data: MarketData[]): MarketDataStatsDto {
-    const openPrice = data.at(0)?.openPrice ?? '0';
-    const closePrice = data.at(-1)?.closePrice ?? '0';
+    const openPrice = data.at(0)!.openPrice;
+    const closePrice = data.at(-1)!.closePrice;
     const initialValue = {
       changeRateInPercent: this.calculateChangeRateInPercent(
         Number(closePrice),
