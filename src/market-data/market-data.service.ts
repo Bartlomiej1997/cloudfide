@@ -6,26 +6,7 @@ import { MarketData } from '../binance/model/market-data';
 
 @Injectable()
 export class MarketDataService {
-  constructor(private readonly binanceService: BinanceService) {
-    // console.log(
-    //   this.serialize([
-    //     {
-    //       openTime: 1,
-    //       openPrice: 6,
-    //       highPrice: 3,
-    //       lowPrice: 1,
-    //       closePrice: 2,
-    //     },
-    //     {
-    //       openTime: 2,
-    //       openPrice: 2,
-    //       highPrice: 7,
-    //       lowPrice: 2,
-    //       closePrice: 3,
-    //     },
-    //   ]),
-    // );
-  }
+  constructor(private readonly binanceService: BinanceService) {}
 
   public async getStats(
     symbol: MarketSymbol,
