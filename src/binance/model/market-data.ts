@@ -1,7 +1,7 @@
 export interface MarketData {
   openTime: number;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  closePrice: number;
+  openPrice: string;
+  highPrice: string;
+  lowPrice: string;
+  closePrice: string;
 }
